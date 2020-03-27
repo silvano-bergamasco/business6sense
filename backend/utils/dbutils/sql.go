@@ -6,7 +6,7 @@ import (
 	//"github.com/go-sql-driver/mysql"
 )
 
-func dbConn() (*sql.DB, error) {
+func DbConn() (*sql.DB, error) {
 	dbDriver := os.Getenv("MYSQL_DRIVER")
 	dbUser := os.Getenv("MYSQL_USER")
 	dbPass := os.Getenv("MYSQL_PASSWORD")
