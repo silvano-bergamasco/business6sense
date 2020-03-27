@@ -10,8 +10,8 @@ import (
 func dbConn() (*sql.DB, error) {
 	dbDriver := os.Getenv("MYSQL_DRIVER")
 	dbUser := os.Getenv("MYSQL_USER")
-	dbPass := s.Getenv("MYSQL_PASSWORD")
-	dbName := s.Getenv("MYSQL_DATABASE")
+	dbPass := os.Getenv("MYSQL_PASSWORD")
+	dbName := os.Getenv("MYSQL_DATABASE")
 	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
 
 	if err != nil {
