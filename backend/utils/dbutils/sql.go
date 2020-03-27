@@ -3,8 +3,7 @@ package dbutils
 import (
 	"database/sql"
 	"os"
-
-	_ "github.com/go-sql-driver/mysql"
+	//"github.com/go-sql-driver/mysql"
 )
 
 func dbConn() (*sql.DB, error) {
