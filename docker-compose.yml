@@ -1,0 +1,53 @@
+version: '3'
+services:
+    app:
+        build: .
+            #context: ./docker-artifacts/app/
+            #dockerfile: Dockerfile
+        volumes:
+            - "${PROJECT_FOLDER}/backend:/app"
+        ports: 
+            - 8080:8080 
+        restart: on-failure
+        depends_on:
+            - main_db
+        networks:
+            - fullstack
+
+    main_db:
+        build:
+            context: ./docker-artifacts/db/
+            dockerfile: Dockerfile
+        networks: 
+            fullstack:
+                aliases: 
+                    - dev-mysql
+        volumes: 
+            - "${DATABASE_FOLDER}:/var/lib/mysql"
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+        ports:
+            - '3306:3306'
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin_container
+        depends_on:
+            - main_db
+        environment:
+            - PMA_HOST=mysql # Note the "mysql". Must be the name of the what you used as the mysql service.
+            - PMA_USER=${MYSQL_USER}
+            - PMA_PORT=${MYSQL_PORT}
+            - PMA_PASSWORD=${MYSQL_PASSWORD}
+        ports:
+            - 9090:80
+        restart: always
+        networks:
+            - fullstack
+
+networks:
+    fullstack:
+        driver: bridge
