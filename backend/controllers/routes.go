@@ -17,4 +17,19 @@ func (s *Server) initializeRoutes() {
 	s.Router.HandleFunc("/users/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.UpdateUser))).Methods("PUT")
 	s.Router.HandleFunc("/users/{id}", middlewares.SetMiddlewareAuthentication(s.DeleteUser)).Methods("DELETE")*/
 
+	//Companies routes
+	s.Router.HandleFunc("/companies", middlewares.SetMiddlewareJSON(s.CreateCompany)).Methods("POST")
+
+	//Stock Markets routes
+	s.Router.HandleFunc("/stock_markets", middlewares.SetMiddlewareJSON(s.CreateStockMarket)).Methods("POST")
+
+	//Financial Statements routes
+	s.Router.HandleFunc("/financial_statements", middlewares.SetMiddlewareJSON(s.CreateFinancialStatement)).Methods("POST")
+
+	//Stocks routes
+	s.Router.HandleFunc("/stocks", middlewares.SetMiddlewareJSON(s.CreateStock)).Methods("POST")
+
+	//Portfolios routes
+	s.Router.HandleFunc("/portfolios", middlewares.SetMiddlewareJSON(s.CreatePortfolio)).Methods("POST")
+
 }

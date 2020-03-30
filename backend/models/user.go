@@ -5,18 +5,19 @@ import (
 	"strings"
 	"time"
 
+	"github.com/silvano-bergamasco/business6sense/backend/utils/dbutils"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
-	ID        int16     `json:"id"`
-	Name      string    `json:"name"`
-	Email     string    `json:"email"`
-	Username  string    `json:"username"`
-	Password  string    `json:"password"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	DeletedAt time.Time `json:"deleted_at"`
+	ID        int16  `json:"id"`
+	Name      string `json:"name"`
+	Nickname  string `json:"nickname"`
+	Email     string `json:"email"`
+	Password  string `json:"password"`
+	CreatedAt string `json:"created_at"`
+	UpdatedAt string `json:"updated_at"`
+	DeletedAt string `json:"deleted_at"`
 }
 
 func Hash(password string) ([]byte, error) {
@@ -38,20 +39,20 @@ func (u *User) BeforeSave() error {
 
 func (u *User) Prepare() {
 	u.ID = 0
-	u.Username = html.EscapeString(strings.TrimSpace(u.Username))
+	u.Nickname = html.EscapeString(strings.TrimSpace(u.Nickname))
 	u.Email = html.EscapeString(strings.TrimSpace(u.Email))
-	u.CreatedAt = time.Now()
-	u.UpdatedAt = time.Now()
+	u.CreatedAt = time.Now().Format("2006-01-02 15:04:05")
+	u.UpdatedAt = time.Now().Format("2006-01-02 15:04:05")
 }
 
 func (u *User) FindUserByID(id int16) (*User, error) {
-	db, err := dbutils.dbConn()
+	db, err := dbutils.DbConn()
 
 	if err != nil {
 		return &User{}, err
 	}
 
-	selDB, err := db.Query("SELECT * FROM USers WHERE id=?", id)
+	selDB, err := db.Query("SELECT * FROM users WHERE id = ?", id)
 	if err != nil {
 		return &User{}, err
 	}
@@ -59,16 +60,15 @@ func (u *User) FindUserByID(id int16) (*User, error) {
 	u = &User{}
 	for selDB.Next() {
 		var id int16
-		var name, email, username, password string
-		var createdAt, updatedAt, deletedAt time.Time
-		err = selDB.Scan(&id, &name, &email, &username, &password, &createdAt, &updatedAt, &deletedAt)
+		var name, nickname, email, password, createdAt, updatedAt, deletedAt string
+		err = selDB.Scan(&id, &name, &nickname, &email, &password, &createdAt, &updatedAt, &deletedAt)
 		if err != nil {
 			panic(err.Error())
 		}
 		u.ID = id
 		u.Name = name
+		u.Nickname = nickname
 		u.Email = email
-		u.Username = username
 		u.Password = password
 		u.CreatedAt = createdAt
 		u.UpdatedAt = updatedAt

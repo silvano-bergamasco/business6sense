@@ -10,7 +10,8 @@ RUN apk update && apk add --no-cache git
 WORKDIR /app
 
 # Copy go mod and sum files 
-COPY go.mod go.sum ./
+COPY go.mod /app/go.mod
+COPY go.sum /app/do.sum
 
 # Download all dependencies. Dependencies will be cached if the go.mod and the go.sum files are not changed 
 RUN go mod download 
@@ -24,7 +25,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o business6sensebk 
 
 # Start a new stage from scratch
 FROM alpine:latest
-RUN apk --no-cache add ca-certificates
+RUN apk --no-cache add ca-certificates curl
 
 WORKDIR /root/
 
@@ -33,7 +34,7 @@ COPY --from=builder /app/backend/cmd/business6sensebk .
 COPY --from=builder /app/.env .       
 
 # Expose port 8080 to the outside world
-EXPOSE 8090
+EXPOSE 8080
 
 #Command to run the executable
 CMD ["./business6sensebk"]
