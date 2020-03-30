@@ -60,6 +60,6 @@ func (server *Server) CreateFinancialStatement(w http.ResponseWriter, r *http.Re
 
 	finantialStatements = append(finantialStatements, fs)
 
-	w.Header().Set("Location", fmt.Sprintf("%s%s/%d", r.Host, r.URL.Path, fs.ID))
+	w.Header().Set("Location", fmt.Sprintf("%s%s/%s", r.Host, r.URL.Path, fs.ID))
 	responses.JSON(w, http.StatusCreated, finantialStatements)
 }

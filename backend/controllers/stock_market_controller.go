@@ -63,6 +63,6 @@ func (server *Server) CreateStockMarket(w http.ResponseWriter, r *http.Request) 
 
 	markets = append(markets, m)
 
-	w.Header().Set("Location", fmt.Sprintf("%s%s/%d", r.Host, r.URL.Path, m.ID))
+	w.Header().Set("Location", fmt.Sprintf("%s%s/%s", r.Host, r.URL.Path, m.ID))
 	responses.JSON(w, http.StatusCreated, markets)
 }

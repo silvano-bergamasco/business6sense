@@ -61,6 +61,6 @@ func (server *Server) CreatePortfolio(w http.ResponseWriter, r *http.Request) {
 
 	portfolios = append(portfolios, p)
 
-	w.Header().Set("Location", fmt.Sprintf("%s%s/%d", r.Host, r.URL.Path, p.ID))
+	w.Header().Set("Location", fmt.Sprintf("%s%s/%s", r.Host, r.URL.Path, p.ID))
 	responses.JSON(w, http.StatusCreated, portfolios)
 }

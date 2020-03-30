@@ -3,6 +3,7 @@ module github.com/silvano-bergamasco/business6sense
 go 1.14
 
 require (
+	github.com/badoux/checkmail v0.0.0-20181210160741-9661bd69e9ad
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/gofrs/uuid v3.2.0+incompatible

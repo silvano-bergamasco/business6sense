@@ -8,6 +8,12 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+const (
+	Insert = "insert"
+	Update = "update"
+	Delete = "delete"
+)
+
 func DbConn() (*sql.DB, error) {
 	dbDriver := os.Getenv("MYSQL_DRIVER")
 	dbHost := os.Getenv("MYSQL_HOST")
