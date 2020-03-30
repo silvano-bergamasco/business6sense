@@ -61,6 +61,6 @@ func (server *Server) CreateStock(w http.ResponseWriter, r *http.Request) {
 
 	stocks = append(stocks, s)
 
-	w.Header().Set("Location", fmt.Sprintf("%s%s/%d", r.Host, r.URL.Path, s.ID))
+	w.Header().Set("Location", fmt.Sprintf("%s%s/%s", r.Host, r.URL.Path, s.ID))
 	responses.JSON(w, http.StatusCreated, stocks)
 }

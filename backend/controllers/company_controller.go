@@ -61,6 +61,6 @@ func (server *Server) CreateCompany(w http.ResponseWriter, r *http.Request) {
 
 	companies = append(companies, c)
 
-	w.Header().Set("Location", fmt.Sprintf("%s%s/%d", r.Host, r.URL.Path, c.ID))
+	w.Header().Set("Location", fmt.Sprintf("%s%s/%s", r.Host, r.URL.Path, c.ID))
 	responses.JSON(w, http.StatusCreated, companies)
 }
